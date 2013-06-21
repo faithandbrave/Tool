@@ -3,7 +3,7 @@
 " An example for a Japanese version gvimrc file.
 " 日本語版のデフォルトGUI設定ファイル(gvimrc) - Vim7用試作
 "
-" Last Change: 15-Mar-2012.
+" Last Change: 06-Jun-2013.
 " Maintainer:  MURAOKA Taro <koron@tka.att.ne.jp>
 "
 " 解説:
@@ -56,9 +56,11 @@ endif
 "---------------------------------------------------------------------------
 " Bram氏の提供する設定例をインクルード (別ファイル:vimrc_example.vim)。これ
 " 以前にg:no_gvimrc_exampleに非0な値を設定しておけばインクルードしない。
-if 1 && (!exists('g:no_gvimrc_example') || g:no_gvimrc_example == 0)
-  source $VIMRUNTIME/gvimrc_example.vim
-endif
+"
+" let g:no_vimrc_example=1
+" if 1 && (!exists('g:no_gvimrc_example') || g:no_gvimrc_example == 0)
+"  source $VIMRUNTIME/gvimrc_example.vim
+"endif
 
 "---------------------------------------------------------------------------
 " カラー設定:
@@ -201,12 +203,13 @@ endif
 " 行番号表示
 set number
 
-
 " Encodings: 文字コード設定 =========================================== {{{1
 " from ずんWiki http://www.kawaz.jp/pukiwiki/?vim#content_1_7
 if &encoding !=# 'utf-8'
 	set encoding=japan
 endif
+
+let &fileencodings = 'iso-2022-jp,'.&fileencodings
 
 "set fileencoding=japan
 if has('iconv')
@@ -249,6 +252,8 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 imap <C-N> <C-X><C-O> 
 
 set clipboard=unnamed
+set tw=0
+autocmd FileType text setlocal textwidth=0
 
 " 選択時にペーストしたときに最後のレジスタを上書きする
 vnoremap <silent> p p:call SelectPasteTextOverWriteRegister()<cr>
@@ -257,17 +262,20 @@ function SelectPasteTextOverWriteRegister()
     let @" = @0
 endfunction
 
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']['.(&et?'spc':'tab').']'}
 
 let g:loaded_quicklaunch = 1
 let g:quickrun_config = {
 \ 'cpp': {
-\ 'cmdopt': '-std=c++0x -Wall -I "C:\Library\Boost\trunk\boost-svn" -I "C:\github\faithandbrave\OvenToBoost\OvenToBoost"'
+\ 'command': 'g++',
+\ 'exec': [ '%c %o %s -o %s:p:r', '%s:p:r %a'],
+\ 'outputter' : 'buffer',
+\ 'cmdopt': '-std=c++1y -Wall -I "E:\svn\boost" -I "E:\GitHub\Shand" -I "E:\GitHub\OvenToBoost\OvenToBoost"',
 \ },
 \}
 
 let g:quickrun_config._ = {
 \ 'outputter/buffer/split': 'rightbelow 10sp',
-\ "runner" : "vimproc",
 \}
 
 autocmd filetype cpp :set comments-=:\/\/
