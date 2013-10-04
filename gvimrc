@@ -203,6 +203,9 @@ endif
 " 行番号表示
 set number
 
+" 勝手に改行されるのを防止
+autocmd FileType text setlocal textwidth=0
+
 " Encodings: 文字コード設定 =========================================== {{{1
 " from ずんWiki http://www.kawaz.jp/pukiwiki/?vim#content_1_7
 if &encoding !=# 'utf-8'
