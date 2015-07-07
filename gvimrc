@@ -287,4 +287,7 @@ let g:c_no_curly_error = 1
 
 let g:vimfiler_safe_mode_by_default = 0
 
+" 自動折り返しを無効にする
+autocmd FileType text setlocal textwidth=0
+
 " Copyright (C) 2007 KaoriYa/MURAOKA Taro
