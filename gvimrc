@@ -290,4 +290,8 @@ let g:vimfiler_safe_mode_by_default = 0
 " 自動折り返しを無効にする
 autocmd FileType text setlocal textwidth=0
 
+"タブ、空白、改行の可視化
+set list
+set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
+
 " Copyright (C) 2007 KaoriYa/MURAOKA Taro
